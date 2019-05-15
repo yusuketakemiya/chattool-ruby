@@ -5,20 +5,18 @@
 // like app/views/layouts/application.html.erb.
 // All it does is render <div>Hello Vue</div> at the bottom of the page.
 
-import Vue from 'vue'
-import store from './store'
-import router from './router'
-import App from '../App.vue'
-import Vuetify from 'vuetify'
-import ActionCable from 'actioncable'
-import MessageList from './components/MessageList'
-import MessageInput from './components/MessageInput'
-import "vuetify/dist/vuetify.css";
+import Vue from 'vue';
+import store from './store';
+import router from './router';
+import App from '../App.vue';
+import Vuetify from 'vuetify';
+import Chat from './chat';
+import MessageList from './components/MessageList';
+import MessageInput from './components/MessageInput';
 
-const cable = ActionCable.createConsumer('ws://localhost:3000/cable');
-Vue.prototype.$cable = cable;
+Vue.prototype.$chat = Chat;
 
-Vue.use(Vuetify)
+Vue.use(Vuetify);
 
 Vue.component('nl2br', {
   functional: true,
@@ -33,11 +31,11 @@ Vue.component('nl2br', {
       }));
   }
 });
-Vue.component('message-list', MessageList)
-Vue.component('message-input', MessageInput)
+Vue.component('message-list', MessageList);
+Vue.component('message-input', MessageInput);
 
 document.addEventListener('DOMContentLoaded', () => {
-  const el = document.body.appendChild(document.createElement('app'))
+  const el = document.body.appendChild(document.createElement('app'));
   const app = new Vue({
     el,
     router,
@@ -45,7 +43,7 @@ document.addEventListener('DOMContentLoaded', () => {
     render: h => h(App)
   })
 
-  console.log(app)
+  console.log(app);
 })
 
 

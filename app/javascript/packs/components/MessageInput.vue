@@ -1,15 +1,26 @@
 <template>
   <div class="messageinput">
     <div>
-      <!-- name：<input type="text" name="name" v-model="username"> -->
-      <v-text-field
-        label="Input Message."
-        single-line
-        solo
-        name="message"
-        v-model="message"
-        v-on:keyup.enter="submit"
-      ></v-text-field>
+      <v-card-text style="position: relative">
+        <v-textarea
+          outline
+          label="Input Message."
+          name="message"
+          v-model="message"
+          v-on:keydown.meta.enter="submit"
+        ></v-textarea>
+        <v-btn
+          absolute
+          dark
+          fab
+          top
+          right
+          color="info"
+          v-on:click="submit"
+        >
+          <v-icon>chat</v-icon>
+        </v-btn>
+      </v-card-text>
     </div>
   </div>
 </template>
@@ -21,42 +32,38 @@ export default {
   name: 'MessageInput',
   data () {
     return {
-      channel: null,
     }
   },
   created () {
-    this.channel = this.$cable.subscriptions.create( "ChatChannel",{
-      received: (data) => {
-        store.commit('pushMessage', data.message)
-        this.scrollToBottom()
-      },
+    this.$chat.connect(store.state.main.input.room.id, 
+    (data) => {
+      store.commit('pushMessage', data.message);
+      this.scrollToBottom();
     })
   },
   methods: {
     submit: function () {
       store.dispatch('submitMessage', store.state.main.input).then(() => {
-        this.speak()
-        store.commit('setInputMessage', '')
+        this.send();
+        store.commit('setInputMessage', '');
       })
     },
     scrollToTop: function () {
       window.scrollTo(0,0);
     },
     scrollToBottom: function () {
-      var obj = document.getElementById('app')
+      var obj = document.getElementById('app');
       if(!obj) return;
       window.scrollTo(0,obj.scrollHeight);
     },
-    speak() {
-      this.channel.perform('speak', { 
-        message: store.state.main.input, 
-      });
+    send() {
+      this.$chat.send(store.state.main.input);
     },
   },
   computed: {
       message: {
-        get () { return store.state.main.input.message },
-        set (val) { store.commit('setInputMessage', val) },
+        get () { return store.state.main.input.message; },
+        set (val) { store.commit('setInputMessage', val); },
       },
   }
 }

@@ -1,16 +1,7 @@
 <template>
   <div class="main">
-    
-    <v-content>
-      <v-container grid-list-md text-xs-center>
-        <v-layout row wrap>
-          <v-flex>
-            <message-list />
-            <message-input id="input" />
-          </v-flex>
-        </v-layout>
-      </v-container>
-    </v-content>
+    <message-list />
+    <message-input id="input" />
   </div>
 </template>
 
@@ -20,6 +11,17 @@ export default {
   data () {
     return {
     }
+  },
+  created () {
+    if (this.isChat) return;
+    this.$store.commit('setModeIsLogin');
+    this.$router.push('/');
+  },
+  computed: {
+      isChat: {
+        get () { return this.$store.state.main.mode === 'chat'; }
+        //get () { return true }
+      },
   }
 }
 </script>

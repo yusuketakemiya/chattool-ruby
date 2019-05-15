@@ -17,9 +17,9 @@
         app
       >
         <v-card class="flex">
-          <!-- <v-card-actions v-if="isChat">
-            <message-input />
-          </v-card-actions> -->
+          <!-- <v-card-text v-if=isChat>
+            <message-input id="input" />
+          </v-card-text> -->
           <v-card-actions class="grey justify-center">
             &copy;2019 — <strong>Upstairs</strong>
           </v-card-actions>
@@ -38,15 +38,15 @@ export default {
   },
   methods: {
     back: function() {
-        this.$store.commit('setModeIsLogin')
-        this.$router.push('/')
+        this.$store.commit('setModeIsLogin');
+        this.$router.push('/');
     }
   },
   computed: {
-      isChat: {
-        get () { return this.$store.state.main.mode === 'chat' }
-        //get () { return true }
-      },
+    isChat: {
+      get () { return this.$store.state.main.mode === 'chat'; }
+      //get () { return true }
+    },
   }
 }
 </script>

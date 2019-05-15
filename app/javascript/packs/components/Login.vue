@@ -43,20 +43,20 @@ export default {
     chatStart : function () {
       store.dispatch('getUserId').then(() => {
         store.dispatch('submitRoomId', store.state.main.input.room).then(() => {
-          store.commit('setModeIsChat')
-          this.$router.push('main')
+          store.commit('setModeIsChat');
+          this.$router.push('main');
         })
       })
     }
   },
   computed: {
     username: {
-      get () { return store.state.main.input.user.name },
-      set (val) { store.commit('setInputUserName', val) },
+      get () { return store.state.main.input.user.name; },
+      set (val) { store.commit('setInputUserName', val); },
     },
     roomid: {
-      get () { return store.state.main.input.room.id },
-      set (val) { store.commit('setRoomId', val) },
+      get () { return store.state.main.input.room.id; },
+      set (val) { store.commit('setRoomId', val); },
     },
   }
 }

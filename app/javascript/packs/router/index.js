@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-// import HelloWorld from '@/components/HelloWorld'
+import Sample from '../components/Sample'
 import Login from '../components/Login'
 import Main from '../components/Main'
 
@@ -12,6 +12,8 @@ export default new Router({
       path: '/',
       name: 'Login',
       component: Login
+      // name: 'Sample',
+      // component: Sample
     },
     {
       path: '/main',

@@ -1,27 +1,25 @@
 <template>
   <div class="messagelist">
-    <transition-group name="chat" tag="div" class="list content">
-      <div v-for="{ id, username, message, userid } in messages" :key="id" class="item">
-        <div class="item-detail">
+    <v-container grid-list-md text-xs-center>
+      <v-layout row wrap>
+        <v-flex v-for="{ id, username, message, userid } in messages" :key="id" class="item" xs12>
           <div v-if="isMe(userid)">
-            <v-card>
+            <v-layout align-center justify-end row fill-height>
               <div class="balloon-right">
-                <!-- <h3 class="headline mb-0">{{ username }}</h3> -->
-                <p> {{ message }} </p>
+                <p id="message-right"> {{ message }} </p>
               </div>
-            </v-card>
+            </v-layout>
           </div>
           <div v-else>
-            <v-card>
+            <v-layout align-center justify-start row fill-height>
               <div class="balloon-left">
-                <!-- <h3 class="headline mb-0">{{ username }}</h3> -->
-                <p> {{ message }} </p>
+                <p id="message-left"> {{ message }} </p>
               </div>
-            </v-card>
+            </v-layout>
           </div>
-        </div>
-      </div>
-    </transition-group>
+        </v-flex>
+      </v-layout>
+    </v-container>
   </div>
 </template>
 
@@ -35,24 +33,24 @@ export default {
     }
   },
   created () {
-    this.load()
+    this.load();
   },
   methods: {
     load: function () {
-      store.dispatch('getMessages', store.state.main.input.room).then(() => { })
+      store.dispatch('getMessages', store.state.main.input.room).then(() => { });
     },
     isMe: function (userid) {
-      return store.state.main.input.user.id == userid
+      return store.state.main.input.user.id == userid;
     }
   },
   computed: {
       messages: {
         get () { 
-            var ret = []
+            var ret = [];
             store.state.main.messages.forEach(function(message) {
-              ret.push({ id: message.id, username: message.user.name, message: message.message, userid: message.user.id })
+              ret.push({ id: message.id, username: message.user.name, message: message.message, userid: message.user.id });
             })
-            return ret
+            return ret;
           }
       },
   }
@@ -60,6 +58,16 @@ export default {
 </script>
 
 <style scoped>
+#message-right {
+  text-align: left;
+  white-space:pre-wrap;
+  word-wrap:break-word;
+}
+#message-left {
+  text-align: right;
+  white-space:pre-wrap;
+  word-wrap:break-word;
+}
 .balloon-left {
   position: relative;
   display: inline-block;
