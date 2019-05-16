@@ -14,8 +14,15 @@
         column
         align-center
         justify-center
-        style="height: 1000px"
+        
       >
+        <v-flex v-for="i in 12" :key="`1${i}`" xs1>
+          <v-layout align-center justify-end row fill-height>
+            <div class="balloon-right">
+              <p id="message-right"> test </p>
+            </div>
+          </v-layout>
+        </v-flex>
       </v-layout>
     </v-container>
     <message-input id="input" />

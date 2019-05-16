@@ -1,23 +1,27 @@
 <template>
-  <div class="messagelist">
-    <v-container grid-list-md text-xs-center>
+  <div class="messagelist" id="list">
+    <v-container ref="scrollContainer" grid-list-md text-xs-center 
+    style="max-height: 70vh; overflow-x: hidden"
+    class="scroll-y">
       <v-layout row wrap>
-        <v-flex v-for="{ id, username, message, userid } in messages" :key="id" class="item" xs12>
+        <div ref="scrollstart" class="scroll-start" />
+        <v-flex v-for="{ id, username, data, userid } in messages" :key="id" xs12>
           <div v-if="isMe(userid)">
             <v-layout align-center justify-end row fill-height>
               <div class="balloon-right">
-                <p id="message-right"> {{ message }} </p>
+                <p id="message-right">{{ data.value }}</p>
               </div>
             </v-layout>
           </div>
           <div v-else>
             <v-layout align-center justify-start row fill-height>
               <div class="balloon-left">
-                <p id="message-left"> {{ message }} </p>
+                <p id="message-left">{{ data.value }}</p>
               </div>
             </v-layout>
           </div>
         </v-flex>
+        <div ref="scrollend" class="scroll-end" />
       </v-layout>
     </v-container>
   </div>
@@ -30,39 +34,39 @@ export default {
   name: 'MessageList',
   data () {
     return {
+      messages: []
     }
   },
   created () {
-    this.load();
+    store.dispatch('getMessages', store.state.main.input.room).then(() => { });
+    
+    const unwatch = store.watch(
+      state => store.state.main.messages,
+      messages => {
+        this.messages = store.state.main.messages;
+        this.$nextTick(this.scrollToBottom);
+      }
+    )
   },
   methods: {
-    load: function () {
-      store.dispatch('getMessages', store.state.main.input.room).then(() => { });
-    },
     isMe: function (userid) {
       return store.state.main.input.user.id == userid;
-    }
+    },
+    scrollToTop: function () {
+      var el = document.querySelector('.scroll-y');
+      if (el === undefined || el === null) return;
+      el.scrollTop = 0;
+    },
+    scrollToBottom: function () {
+      var el = document.querySelector('.scroll-y');
+      if (el === undefined || el === null) return;
+      el.scrollTop = el.scrollHeight;
+    },
   },
-  computed: {
-      messages: {
-        get () { 
-            var ret = [];
-            store.state.main.messages.forEach(function(message) {
-              ret.push({ id: message.id, username: message.user.name, message: message.message, userid: message.user.id });
-            })
-            return ret;
-          }
-      },
-  }
 }
 </script>
 
 <style scoped>
-#message-right {
-  text-align: left;
-  white-space:pre-wrap;
-  word-wrap:break-word;
-}
 #message-left {
   text-align: right;
   white-space:pre-wrap;
@@ -95,6 +99,11 @@ export default {
   padding: 0;
 }
 
+#message-right {
+  text-align: left;
+  white-space:pre-wrap;
+  word-wrap:break-word;
+}
 .balloon-right {
   position: relative;
   display: inline-block;

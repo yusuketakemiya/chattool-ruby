@@ -10,14 +10,20 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_05_14_051224) do
+ActiveRecord::Schema.define(version: 2019_05_16_073223) do
+
+  create_table "contents", force: :cascade do |t|
+    t.string "ctype"
+    t.binary "content"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "messages", force: :cascade do |t|
     t.integer "roomid"
-    t.integer "uuid"
+    t.integer "contentid"
     t.string "userid"
     t.string "username"
-    t.string "message"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

@@ -9,7 +9,7 @@ export default {
         id: room.id
       }})
     .then((res) => {
-      commit('pushMessages', res.data);
+      commit('setMessages', res.data);
     }).catch(error => {
       console.log(error);
     });
@@ -17,7 +17,7 @@ export default {
   async submitMessage ({ commit }, input) {
     await axios.post('/api/message', input)
     .then((res) => {
-      commit('setInput', res.data);
+      commit('setMessage', res.data);
     }).catch(error => {
       console.log(error);
     });

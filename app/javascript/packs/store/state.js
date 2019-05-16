@@ -4,7 +4,13 @@ export default {
     input: {
       room: { id: '' },
       user: { name: '', id: '' },
-      message: ''
+      data: { type: null, value: null }
+    },
+    message: { 
+      id: null, 
+      username: null, 
+      userid: null, 
+      data: { type: null, value: null }
     },
     messages: []
   }

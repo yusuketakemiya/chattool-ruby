@@ -2,14 +2,12 @@
 
 one:
   roomid: 1
-  uuid: 1
+  contentid: 1
   userid: MyString
   username: MyString
-  message: MyString
 
 two:
   roomid: 1
-  uuid: 1
+  contentid: 1
   userid: MyString
   username: MyString
-  message: MyString

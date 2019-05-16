@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Sample from '../components/Sample'
+//import Sample from '../components/Sample'
 import Login from '../components/Login'
 import Main from '../components/Main'
 
