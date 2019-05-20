@@ -1,21 +1,20 @@
 FROM ruby:2.5.3
-ENV LANG C.UTF-8
+RUN apt-get update -qq && apt-get install -y nodejs postgresql-client
+RUN mkdir /app
+WORKDIR /app
+COPY Gemfile /app/Gemfile
+COPY Gemfile.lock /app/Gemfile.lock
 
-ADD https://dl.yarnpkg.com/debian/pubkey.gpg /tmp/yarn-pubkey.gpg
-RUN apt-key add /tmp/yarn-pubkey.gpg && rm /tmp/yarn-pubkey.gpg
-RUN echo 'deb http://dl.yarnpkg.com/debian/ stable main' > /etc/apt/sources.list.d/yarn.list
-RUN apt-get update && apt-get install -qq -y --no-install-recommends build-essential libpq-dev curl
-RUN curl -sL https://deb.nodesource.com/setup_6.x | bash -
-RUN apt-get update && apt-get install -qq -y --no-install-recommends nodejs yarn
+ENV BUNDLER_VERSION 2.0.1
+RUN gem install bundler && bundle install --jobs 20 --retry 5
+# RUN bundle install
+COPY . /app
 
-RUN gem install bundler
+# Add a script to be executed every time the container starts.
+COPY entrypoint.sh /usr/bin/
+RUN chmod +x /usr/bin/entrypoint.sh
+ENTRYPOINT ["entrypoint.sh"]
+EXPOSE 3000
 
-WORKDIR /tmp
-ADD Gemfile Gemfile
-ADD Gemfile.lock Gemfile.lock
-RUN bundle install
-
-ENV APP_HOME /app
-RUN mkdir -p $APP_HOME
-WORKDIR $APP_HOME
-ADD . $APP_HOME
+# Start the main process.
+CMD ["rails", "server", "-b", "0.0.0.0"]
