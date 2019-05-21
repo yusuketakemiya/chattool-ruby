@@ -18,12 +18,12 @@ class Api::TestController < ApplicationController
     {
       'id': SecureRandom.hex(8),
       'name': 'taro',
-      'message': 'お元気ですか？'
+      'message': 'お�E気ですか�E�E
     },
     {
       'id': SecureRandom.hex(8),
       'name': 'jio',
-      'message': '元気です。'
+      'message': '允E��です、E
     },
     {
       'id': SecureRandom.hex(8),
@@ -33,7 +33,7 @@ class Api::TestController < ApplicationController
     {
       'id': SecureRandom.hex(8),
       'name': 'jio',
-      'message': 'そちらはお元気ですか？'
+      'message': 'そちら�Eお�E気ですか�E�E
     })
     render :json => datas
   end

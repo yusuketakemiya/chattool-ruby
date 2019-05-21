@@ -8,13 +8,15 @@ services:
       - "3035:3035"
     depends_on:
       - web
-    volumes:
-      - .:/app
+    tty: false
+    stdin_open: false
   web:
     build: .
-    # command: /bin/bash -c "rm -f tmp/pids/server.pid && bundle exec rails s -p 3000 -b '0.0.0.0'"
-    command: bundle exec rails s -p 3000 -b '0.0.0.0'
+    command: ["bundle", "exec", "rails", "s", "-p", "3000", "-b", "0.0.0.0"]
     volumes:
       - .:/app
+      - .:/db
     ports:
       - "3000:3000"
+    tty: true
+    stdin_open: true
