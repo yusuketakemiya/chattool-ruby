@@ -80,7 +80,8 @@ Vueの初期化ロジックはここに集約されます。
 
 ### サーバサイド  
 
-* フォルダ構成について
+* フォルダ構成について  
+
 ```
 app
  └── models
@@ -105,4 +106,56 @@ APIのロジック箇所になります。
 config
  └── routes.rb
 ```
+
 routes.rbにてサーバサイドのAPI実装となるコントローラーおよびWebSocketのAPIとURLの関連付けを実施しております。
+
+## Docker  
+
+開発環境向けDockerコンテナを用意しております。
+以下にDocker起動用のファイル構成を明示します。  
+
+```
+/
+└── docker-compose.yml
+└── Dockerfile
+└── entrypoint.sh
+```
+
+1. docker-compose.yml  
+Dockerサービスの構成ファイル。
+現バージョンではRuby+Railsのコンテナ起動のみ。
+DBの分割、WebPackerの構成が入る予定。
+
+2. Dockerfile  
+コンテナ定義ファイル
+Ruby+Railsの環境が構築されております。
+
+3. entrypoint.sh  
+コンテナ起動時のShellスクリプト。
+異常終了時のpidファイル削除処理が記載されております。
+
+### Dockerコマンド  
+
+* Build  
+
+```
+$ docker-compose build
+```
+
+* 起動
+
+```
+$ docker-compose up
+```
+
+* 不要コンテナ一括削除
+
+```
+$ docker rm $(docker ps -q -a)
+```
+
+* 不要イメージ一括削除
+
+```
+$ docker rmi $(docker images -q)
+```
