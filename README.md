@@ -144,6 +144,7 @@ Ruby+Railsの環境が構築されております。
 ### Dockerコマンド  
 
 * Build  
+コンテナをビルドしてDocker RegistryにPullします。
 
 ```
 $ docker-compose build
