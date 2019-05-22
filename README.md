@@ -129,17 +129,19 @@ routes.rbにてサーバサイドのAPI実装となるコントローラーお�
 ```
 
 1. docker-compose.yml  
-Dockerサービスの構成ファイル。
-現バージョンではRuby+Railsのコンテナ起動のみ。
-DBの分割、WebPackerの構成が入る予定。
+Dockerサービスの構成ファイル。  
+「web」サービス:アプリケーションの起動コンテナ  
+「webpacker」サービス:webpackコンテナ
 
 2. Dockerfile  
 コンテナ定義ファイル
-Ruby+Railsの環境が構築されております。
+Ruby+Railsの環境が構築されております。  
+「web」「webpacker」ともに共通のコンテナを使用するため、nodejsとyarnのインストールを実施しております。  
+Railsのwebpackerライブラリの関係でnodejsとyarnは特定のバージョンを使用するようになっているため、apt-getを別リポジトリから行う調整が入っております。  
 
 3. entrypoint.sh  
-コンテナ起動時のShellスクリプト。
-異常終了時のpidファイル削除処理が記載されております。
+コンテナ起動時のShellスクリプト。  
+異常終了時のpidファイル削除処理が記載されております。  
 
 ### Dockerコマンド  
 
